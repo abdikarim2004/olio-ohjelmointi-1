@@ -63,7 +63,10 @@ class Sankari:
         self.nimi = nimi
         self.rohkeus = random.randint(1, 10)
         self.katseen_voima = random.randint(1, 10)
-
+    
+    def arvo_hurraus(self):
+        satunnainen_hurraus = random.choice(self.hurraukset)
+        return satunnainen_hurraus
 
 def hurraa(olio):
     """Tulostaa satunnaisen hurrauksen annetulle oliolle.
