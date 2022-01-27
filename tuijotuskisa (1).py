@@ -57,7 +57,9 @@ class Peikko:
         return self._arvo_sanat(self.RIEMUTAVUT, 8, " ", 0.7)
 
 
-### Kirjoita luokka Sankari tähän.
+class Sankari:
+    
+    def __init__(self, nimi):
 
 
 def hurraa(olio):
