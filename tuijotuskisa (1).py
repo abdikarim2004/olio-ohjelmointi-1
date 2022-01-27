@@ -60,6 +60,7 @@ class Peikko:
 class Sankari:
     
     def __init__(self, nimi):
+        self.nimi = nimi
 
 
 def hurraa(olio):
