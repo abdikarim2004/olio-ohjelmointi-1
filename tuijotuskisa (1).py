@@ -66,6 +66,9 @@ class Sankari:
     :type rohkeus: int
     :ivar katseen_voima: sankarin katseen voimakkuus, arvotaan
     :type katseen_voima: int
+    
+    Julkiset metodit
+        arvo_hurraus()
     """   
     def __init__(self, nimi):
         self.nimi = nimi
