@@ -76,12 +76,10 @@ class Sankari:
         self.katseen_voima = random.randint(1, 10)
     
     def arvo_hurraus(self):
-         """arvoo satunnaisen hurrauksen.
+        """Palauttaa satunnaisen hurraushuudahduksen.
 
-        :ivar satunnainen_hurraus: satunnainen hurraus
-        :type satunnainen_hurraus: variable
-        :return: satunnainen_hurraus
-        :rtype: Union[string, float]
+        :return: hurraava huudahdus
+        :rtype: str
         """
         satunnainen_hurraus = random.choice(self.hurraukset)
         return satunnainen_hurraus
