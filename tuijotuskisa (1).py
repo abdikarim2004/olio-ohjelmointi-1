@@ -58,13 +58,28 @@ class Peikko:
 
 
 class Sankari:
-    
+     """Luokka, joka kuvaa Sankarin.
+
+    :ivar nimi: Sankarin nimi, parametri
+    :type nimi: str
+    :ivar rohkeus: sankarin rohkeus, arvotaan
+    :type rohkeus: int
+    :ivar katseen_voima: sankarin katseen voimakkuus, arvotaan
+    :type katseen_voima: int
+    """   
     def __init__(self, nimi):
         self.nimi = nimi
         self.rohkeus = random.randint(1, 10)
         self.katseen_voima = random.randint(1, 10)
     
     def arvo_hurraus(self):
+         """arvoo satunnaisen hurrauksen.
+
+        :ivar satunnainen_hurraus: satunnainen hurraus
+        :type satunnainen_hurraus: variable
+        :return: satunnainen_hurraus
+        :rtype: Union[string, float]
+        """
         satunnainen_hurraus = random.choice(self.hurraukset)
         return satunnainen_hurraus
 
