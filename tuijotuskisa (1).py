@@ -98,6 +98,7 @@ class VuorenPeikko(Peikko):
 
     NIMITAVUT = ("Yur", "Ewrg", "Grug", "Glir", "Kaqr", "Kazah", "Bur", "Haxh")
     RIEMUTAVUT = ("AghH", "UghH", "OurghH", "DrarR", "BrarR", "DzaA", "GraA", "GurR", "RahH")
+
     def __init__(self):
         self.nimi = self._arvo_sanat(self.NIMITAVUT, 3, "-")
         self.rohkeus = random.randint(3, 8)
@@ -125,7 +126,7 @@ class VuorenPeikko(Peikko):
             else:
                 sanat += osa.lower()
         return sanat
-    
+
     def arvo_hurraus(self):
         """Palauttaa satunnaisen hurraushuudahduksen.
 
@@ -134,10 +135,12 @@ class VuorenPeikko(Peikko):
         """
         return self._arvo_sanat(self.RIEMUTAVUT, 8, " ", 0.7)
 
+
 class LuolaPeikko(Peikko):
 
     NIMITAVUT = ("Yur", "Ewrg", "Grug", "Glir", "Kaqr", "Kazah", "Bur", "Haxh")
     RIEMUTAVUT = ("AghH", "UghH", "OurghH", "DrarR", "BrarR", "DzaA", "GraA", "GurR", "RahH")
+
     def __init__(self):
         self.nimi = self._arvo_sanat(self.NIMITAVUT, 3, "-")
         self.rohkeus = random.randint(4, 7)
@@ -165,7 +168,7 @@ class LuolaPeikko(Peikko):
             else:
                 sanat += osa.lower()
         return sanat
-    
+
     def arvo_hurraus(self):
         """Palauttaa satunnaisen hurraushuudahduksen.
 
