@@ -2,7 +2,14 @@ import random
 import time
 
 class Olento:
+    """ kanttaluokka luokille Peikko ja Sankari
 
+    :ivar rohkeus: peikon rohkeus, arvotaan
+    :type rohkeus: int
+    :ivar katseen_voima: peikon katseen voimakkuus, arvotaan
+    :type katseen_voima: int
+
+    """
     def __init__(self):
 
         self.rohkeus = random.randint(4,8)
@@ -13,10 +20,6 @@ class Peikko(Olento):
 
     :ivar nimi: peikon nimi, arvotaan
     :type nimi: str
-    :ivar rohkeus: peikon rohkeus, arvotaan
-    :type rohkeus: int
-    :ivar katseen_voima: peikon katseen voimakkuus, arvotaan
-    :type katseen_voima: int
 
     Julkiset metodit
         arvo_hurraus()
