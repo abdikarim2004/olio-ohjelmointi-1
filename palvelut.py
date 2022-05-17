@@ -1,117 +1,146 @@
+from multiprocessing.sharedctypes import Value
 import random
 
 class Asiakas:
-"""
-    :ivar nimi: asiakkaan nimi
-    :type nimi: str
-
-    :ivar ika: asiakkaan ikä
-    :type ika: int
-    
-    :ivar asiakasnro: asiakasnumero, arvotaan
-    :type asiakasnro: int[]
-    
-    Yksityiset metodit
-        luo_nro()
-"""
 
     def __init__(self, nimi, ika):
-        self.nimi = nimi
-        self.ika = ika
-        self.luo_nro()
-    
-    def luo_nro(self):
-       asiakasnro = random.randint(0,9)
-       return (asiakasnro)
+        """Asiakas luokan konduktööri
 
-#________getters and setters____
-    def get_nimi_ja_ika(self):
-        return self.nimi, self.ika
-    
-    def set_nimi_ja_ika(self):
-        if self.nimi == "": raise ValueError("Uusi nimi on annettava")
-        else: pass
+    sijoittaa asiakkaan nimen, iän ja asiakasnumeron omiin muuttujiin
 
-        if self.ika == "": raise ValueError("uusi ikä on annettava")
-        else: pass
+    :param nimi: asiakkaan nimi
+    :type nimi: str
+    :param ika: asiakkaan ikä
+    :type ika: int
+    """
+        self.__nimi, self.__ika, self.__asiakasnro = nimi, ika, self.__luo_nro()
     
+    def __luo_nro(self):
+        """tallentaa kokonaisluvun väliltä 0-9 muuttujaan asiakasnumero.
+        :return: muuttuja asiakasnumero
+        :rtype: int
+        """
+        asiakasnumero = random.randint(0,9)
+        return asiakasnumero
+
+#__________getters_________
+    def get_nimi(self):
+        """palauttaa asiakkaan nimi"""
+        return self.__nimi
+
+    def get_ika(self):
+        """palauttaa asiakkaan ikä"""
+        return self.__ika
+
     def get_asiakasnro(self):
-        self.asiakasnro = "{}{}-{}{}{}-{}{}{}".format(*[self.luo_nro for x in range(8)])
+        """luo asiakasnro-nimisen muuttujan ja muotoilee sen 8 numeroksi, joista tulee asiakasnumero
+        :return: muuttuja asiakasnro
+        :rtype: int
+        """
+        asiakasnro = "{}{}-{}{}{}-{}{}{}".format(*[Asiakas.__luo_nro(self) for x in range(8)])
+        return asiakasnro
+
+#__________setters__________
+    def set_nimi(self, nimi):
+        """tarkistaa jos nimi on annettu
+        :param nimi: sisältää asiakkaan nimi
+        :type nimi: variable/string
+        """
+
+        if nimi == nimi:
+            nimi = self.__nimi
+        else:
+            raise ValueError("Uusi nimi on annettava: ")
     
+    def set_ika(self, ika):
+        """tarkistaa jos ikä on annettu
+        :param ika: sisältää asiakkaan ikä
+        :type ika: int
+        """
+
+        if ika == ika:
+            ika = self.__ika
+        else:
+            raise ValueError("Uusi ikä on annettava: ")
     
 
-
-#
 
 class Palvelu(Asiakas):
-    """
-    :ivar asiakkaat: asiakkaat lista joka alustetaan se tyhjäksi.
-    :type nimi: str
 
-    :ivar tuotenimi: Palvelu-luokan konstruktoorin parametri
-    :type tuotenimi: str
-    
-    Julkiset metodit
-        lisaa_asiakas(Asiakas)
-        poista_asiakas(Asiakas)
-        tulosta_asiakkaat()
-    
-    suojattu metodi
-        luo_asiakasrivi(Asiakas): str
-"""
     def __init__(self, tuotenimi):
-        self.asiakkaat = []
+        """luo tyhjän listan nimeltä asiakkaat ja muuttujan nimeltä tuotenimi
 
-    def luo_asiakasrivi(Asiakas):
-        pass
+        :param tuotenimi: muuttuja nimeltä tuotenimi
+        :type tuotenimi: string
+        """
+        self.__asiakkaat, self.tuotenimi = [], tuotenimi
 
-    def lisaa_asiakas(self, Asiakas):
-        self.asiakkaat.append(Asiakas)
-        if Asiakas == "":
-            raise ValueError("Asiakas on annettava.")
+    def lisaa_asiakas(self, asiakas):
+        """katsoo jos asiakas on asiakkaat -listassa, ja jos ei ole niin se lisää sen asiakkaat -listaan
+        :param asiakas: asiakas
+        :type asiakas: string/variable
+        """
+        if bool(asiakas):
+            self.__asiakkaat.append(asiakas)
+        else:
+            raise ValueError("Asiakas on annettava: ")
         
-    def poista_asiakas(self, Asiakas):
-        self.asiakkaat.remove(Asiakas)
-        if Asiakas not in self.asiakkaat:
+    def poista_asiakas(self, asiakas):
+        """poistaa asiakkaan asiakkaat -listalta, ja jos asiakas ei ole listassa niin se ohittaa
+        :param asiakas: asiakas
+        :type asiakas: string/variable
+        """
+        try:
+            self.__asiakkaat.remove(asiakas)
+        except ValueError:
             pass
 
-    def luo_asiakasrivi(self):
-        print (f"{self.nimi} ({self.asiakasnro}) on {self.ika}-vuotias.")
+    def _luo_asiakasrivi(self, asiakas):
+        """luo asiakasrivin käyttämällä asiakkaan nimen, asiakasnumeron ja asiakkaan iän
+        :param asiakas: asiakas
+        :type asiakas: string/variable
+        :return: asiakkaan nimi, asiakasnumero ja ikä
+        :rtype: Union[int, string]
+        """
+        return f'{asiakas.get_nimi()} ({asiakas.get_asiakasnro()}) on {asiakas.get_ika()}-vuotias.'
 
-    def tulosta_asiakkaat(self, Asiakas):
-        for len in self.asiakkaat:
-            return self.luo_asiakasrivi()
+
+    def tulosta_asiakkaat(self):
+        """Tulostaa rivin jokaiselle asiakaaat -listalla olevalle asiakkaalle"""
+        for asiakas in self.__asiakkaat:
+            print(self._luo_asiakasrivi(asiakas))
 
 
-
-
-#
 
 class ParempiPalvelu(Palvelu):
-    """
-    :ivar edut: 
-    :type edut: str[]
-    
-    Julkiset metodit
-        lisaa_etu(str)
-        poista_etu(str)
-        tulosta_edut()
-"""
 
     def __init__(self, tuotenimi):
-        self.tuotenimi = Palvelu.__init__(self, tuotenimi)
-        self.edut = []
+        Palvelu.__init__(self, tuotenimi)
+        self.__edut = []
     
-    def lisaa_etu(self):
-        self.edut.append(Asiakas)
-        if self.edut == "":
-            raise ValueError("Asiakas on annettava.")
+    def lisaa_etu(self, etu):
+        """lisää edun edut- nimiseen listaan
+        :param etu: etu
+        :type etu: string/variable
+        """
+        if etu == etu:
+            self.__edut.append(etu)
+        else:
+            raise ValueError("Anna uusi etu: ")
+        #self.edut.append(etu)
 
-    def poista_etu(self):
-        self.edut.remove(Asiakas)
-        if Asiakas not in self.asiakkaat:
+    def poista_etu(self, etu):
+        """poistaa etun edut -listalta, ja jos etu ei ole listassa niin se ohittaa
+        :param etu: etu
+        :type etu: string/variable
+        """
+        try:
+            self.__edut.remove(etu)
+        except:
             pass
 
     def tulosta_edut(self):
-        for len in self.asiakkaat:
-            return self.luo_asiakasrivi()
+        """Tulostaa rivin jokaiselle edut -listalla olevalle etun"""
+        print("Tuotteen", self.tuotenimi, "edut ovat:")
+        for etu in self.__edut:
+            print(etu)
