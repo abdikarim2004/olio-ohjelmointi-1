@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 import random
 
 class Asiakas:
