@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import random
 
 class Asiakas:
@@ -36,31 +37,28 @@ class Asiakas:
         :return: muuttuja asiakasnro
         :rtype: int
         """
-        asiakasnro = "{}{}-{}{}{}-{}{}{}".format(*[Asiakas.__luo_nro(self) for x in range(8)])
+        asiakasnro = "{}{}-{}{}{}-{}{}{}".format(*[self.__luo_nro() for x in range(8)])
         return asiakasnro
 
 #__________setters__________
-    def set_nimi(self, nimi):
+    def set_nimi(self, __nimi):
         """tarkistaa jos nimi on annettu
         :param nimi: sisältää asiakkaan nimi
         :type nimi: variable/string
         """
 
-        if nimi == nimi:
-            nimi = self.__nimi
-        else:
-            raise ValueError("Uusi nimi on annettava: ")
+        if self.__nimi == "": raise ValueError("Uusi nimi on annettava: ")
+        else: self.__nimi = __nimi
+
     
-    def set_ika(self, ika):
+    def set_ika(self):
         """tarkistaa jos ikä on annettu
         :param ika: sisältää asiakkaan ikä
         :type ika: int
         """
 
-        if ika == ika:
-            ika = self.__ika
-        else:
-            raise ValueError("Uusi ikä on annettava: ")
+        if self.__ika == "": raise ValueError("uusi ikä on annettava: ")
+        else: self.__ika = self.__ika
     
 
 
@@ -117,16 +115,14 @@ class ParempiPalvelu(Palvelu):
         Palvelu.__init__(self, tuotenimi)
         self.__edut = []
     
-    def lisaa_etu(self, etu):
+    def lisaa_etu(self, Asiakas):
         """lisää edun edut- nimiseen listaan
         :param etu: etu
         :type etu: string/variable
         """
-        if etu == etu:
-            self.__edut.append(etu)
-        else:
-            raise ValueError("Anna uusi etu: ")
-        #self.edut.append(etu)
+        self.__edut.append(Asiakas)
+        if Asiakas == "":
+            raise ValueError("Uusi asiakas on annettava: ")
 
     def poista_etu(self, etu):
         """poistaa etun edut -listalta, ja jos etu ei ole listassa niin se ohittaa
@@ -135,7 +131,7 @@ class ParempiPalvelu(Palvelu):
         """
         try:
             self.__edut.remove(etu)
-        except:
+        except ValueError:
             pass
 
     def tulosta_edut(self):
