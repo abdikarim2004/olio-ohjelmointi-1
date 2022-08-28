@@ -1,141 +1,156 @@
-from multiprocessing.sharedctypes import Value
 import random
+#_____________________________________________________________#
 
 class Asiakas:
-
+    
     def __init__(self, nimi, ika):
         """Asiakas luokan konduktööri
+        sijoittaa asiakkaan nimen, iän ja asiakasnumeron omiin muuttujiin
+        :param nimi: asiakkaan nimi
+        :type nimi: str
+        :param ika: asiakkaan ikä
+        :type ika: int
+        """
 
-    sijoittaa asiakkaan nimen, iän ja asiakasnumeron omiin muuttujiin
-
-    :param nimi: asiakkaan nimi
-    :type nimi: str
-    :param ika: asiakkaan ikä
-    :type ika: int
-    """
-        self.__nimi, self.__ika, self.__asiakasnro = nimi, ika, self.__luo_nro()
+        self.nimi = nimi
+        self.ika = ika
+        self.asiakasnumero = self.luo_nro()
     
-    def __luo_nro(self):
-        """tallentaa kokonaisluvun väliltä 0-9 muuttujaan asiakasnumero.
+    def luo_nro(self):
+        """ tallentaa kokonaisluvun väliltä 0-9 muuttujaan nro.
         :return: muuttuja asiakasnumero
         :rtype: int
         """
-        asiakasnumero = random.randint(0,9)
-        return asiakasnumero
 
-#__________getters_________
-    def get_nimi(self):
-        """palauttaa asiakkaan nimi"""
-        return self.__nimi
+        nro = random.randint(0,9)
+        return nro
+        
+    #__________getters_________
 
-    def get_ika(self):
+    def getnimi(self):
+        """ palauttaa asiakkaan nimi"""
+
+        return self.nimi
+    
+    def getika(self):
         """palauttaa asiakkaan ikä"""
-        return self.__ika
 
-    def get_asiakasnro(self):
-        """luo asiakasnro-nimisen muuttujan ja muotoilee sen 8 numeroksi, joista tulee asiakasnumero
-        :return: muuttuja asiakasnro
+        return self.ika
+
+    def getasiakasnumero(self):
+        """luo asiakasnumero-nimisen muuttujan ja muotoilee sen 8 numeroksi, joista tulee asiakasnumero
+        :return: muuttuja asiakasnumero
         :rtype: int
         """
-        asiakasnro = "{}{}-{}{}{}-{}{}{}".format(*[self.__luo_nro() for x in range(8)])
-        return asiakasnro
+
+        asiakasnumero = "{}{}-{}{}{}-{}{}{}".format(*[Asiakas.luo_nro(self)for x in range(8)])
+        return asiakasnumero
 
 #__________setters__________
-    def set_nimi(self, __nimi):
-        """tarkistaa jos nimi on annettu
+
+    def set_nimi(self, nimi):
+        """ tarkistaa jos nimi on annettu
         :param nimi: sisältää asiakkaan nimi
         :type nimi: variable/string
         """
 
-        if self.__nimi == "": raise ValueError("Uusi nimi on annettava: ")
-        else: self.__nimi = __nimi
-
-    
-    def set_ika(self):
-        """tarkistaa jos ikä on annettu
+        if nimi == True:
+            self.nimi = nimi 
+        else:
+            raise ValueError("Uusi nimi on annettava")
+        
+    def set_ika(self, ika):
+        """ tarkistaa jos ikä on annettu
         :param ika: sisältää asiakkaan ikä
         :type ika: int
         """
 
-        if self.__ika == "": raise ValueError("uusi ikä on annettava: ")
-        else: self.__ika = self.__ika
-    
+        if ika == int:
+            self.ika = ika
+        else:
+            raise ValueError("Uusi ikä on annettava")
 
+#_____________________________________________________________#
 
-class Palvelu(Asiakas):
+class Palvelu:
 
-    def __init__(self, tuotenimi):
-        """luo tyhjän listan nimeltä asiakkaat ja muuttujan nimeltä tuotenimi
-
-        :param tuotenimi: muuttuja nimeltä tuotenimi
-        :type tuotenimi: string
+    def __init__(self, tuotteennimi):
+        """luo tyhjän listan nimeltä asiakkaat ja muuttujan nimeltä tuotteennimi
+        :param tuotteennimi: muuttuja nimeltä tuotteennimi
+        :type tuotteennimi: string
         """
-        self.__asiakkaat, self.tuotenimi = [], tuotenimi
+
+        self.asiakkaat = []
+        self.tuotteennimi = tuotteennimi
 
     def lisaa_asiakas(self, asiakas):
-        """katsoo jos asiakas on asiakkaat -listassa, ja jos ei ole niin se lisää sen asiakkaat -listaan
+        """ katsoo jos asiakas on asiakkaat -listassa, ja jos ei ole niin se lisää sen asiakkaat -listaan
         :param asiakas: asiakas
         :type asiakas: string/variable
         """
+
         if bool(asiakas):
-            self.__asiakkaat.append(asiakas)
+            self.asiakkaat.append(asiakas)
         else:
-            raise ValueError("Asiakas on annettava: ")
-        
+            raise ValueError("Asiakas on annettava.")
+
     def poista_asiakas(self, asiakas):
-        """poistaa asiakkaan asiakkaat -listalta, ja jos asiakas ei ole listassa niin se ohittaa
+        """ poistaa asiakkaan asiakkaat -listalta, ja jos asiakas ei ole listassa niin se ohittaa
         :param asiakas: asiakas
         :type asiakas: string/variable
         """
+
         try:
-            self.__asiakkaat.remove(asiakas)
+            self.asiakkaat.remove(asiakas)
         except ValueError:
             pass
 
-    def _luo_asiakasrivi(self, asiakas):
-        """luo asiakasrivin käyttämällä asiakkaan nimen, asiakasnumeron ja asiakkaan iän
+    def luo_asiakasrivi(self, asiakas):
+        """ luo asiakasrivin käyttämällä asiakkaan nimen, asiakasnumeron ja asiakkaan iän
         :param asiakas: asiakas
         :type asiakas: string/variable
-        :return: asiakkaan nimi, asiakasnumero ja ikä
+        :return: asiakkaan nimi, asiakasnumero ja asiakkaan ikä
         :rtype: Union[int, string]
         """
-        return f'{asiakas.get_nimi()} ({asiakas.get_asiakasnro()}) on {asiakas.get_ika()}-vuotias.'
 
+        return f'{Asiakas.getnimi(asiakas)} ({Asiakas.getasiakasnumero(asiakas)}) on {Asiakas.getika(asiakas)}-vuotias.'
 
     def tulosta_asiakkaat(self):
-        """Tulostaa rivin jokaiselle asiakaaat -listalla olevalle asiakkaalle"""
-        for asiakas in self.__asiakkaat:
-            print(self._luo_asiakasrivi(asiakas))
+        """ Tulostaa rivin jokaiselle asiakaaat -listalla olevalle asiakkaalle"""
 
+        print("Tuotteen", self.tuotteennimi, "asiakkaat ovat:")
+        for asiakas in self.asiakkaat:
+            print(self.luo_asiakasrivi(asiakas))
+        print()
 
+#_____________________________________________________________#
 
 class ParempiPalvelu(Palvelu):
 
-    def __init__(self, tuotenimi):
-        Palvelu.__init__(self, tuotenimi)
-        self.__edut = []
-    
-    def lisaa_etu(self, Asiakas):
+    def __init__(self, tuotteennimi):
+        self.edut = []
+        Palvelu.__init__(self,tuotteennimi)
+
+    def lisaa_etu(self, etu):
         """lisää edun edut- nimiseen listaan
         :param etu: etu
-        :type etu: string/variable
+        :type etu: string/variable 
         """
-        self.__edut.append(Asiakas)
-        if Asiakas == "":
-            raise ValueError("Uusi asiakas on annettava: ")
+        self.edut.append(etu)
 
     def poista_etu(self, etu):
-        """poistaa etun edut -listalta, ja jos etu ei ole listassa niin se ohittaa
+        """ poistaa etun edut -listalta, ja jos etu ei ole listassa niin se ohittaa
         :param etu: etu
         :type etu: string/variable
         """
         try:
-            self.__edut.remove(etu)
+            self.edut.remove(etu)   
         except ValueError:
             pass
 
     def tulosta_edut(self):
-        """Tulostaa rivin jokaiselle edut -listalla olevalle etun"""
-        print("Tuotteen", self.tuotenimi, "edut ovat:")
-        for etu in self.__edut:
+        """ tulostaa rivin jokaiselle edut -listalla olevalle etun
+        """
+        print("Tuotteen", self.tuotteennimi, "edut ovat:")
+        for etu in self.edut:
             print(etu)
